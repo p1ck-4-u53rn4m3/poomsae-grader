@@ -40,10 +40,13 @@ def read_file(f):
     obj = json.loads(data)
     return obj["people"][0]["pose_keypoints_2d"]
 
+
 def analyze(f, optimal):
     ''' reads the json file of people arrays produced by OpenPose
     input: name of json file
     output: [arm angle, leg angle]
     '''
     keypoints = read_file(f)
-    
+
+
+
