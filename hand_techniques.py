@@ -1,6 +1,6 @@
 import json
 import math
-import numpy
+import numpy as np
 
 BODY_25 = {
     "Nose": 0,
@@ -36,7 +36,9 @@ def arm_angle(keypoints):
     output: [left arm angle, right arm angle], horizontally given assuming performer is facing the front
     '''
     lwrist = keypoints[BODY_25["LWrist"]*3], keypoints[BODY_25["LWrist"]*3+1]
-    
+    lshoulder = keypoints[BODY_25["LShoulder"]*3], keypoints[BODY_25["LShoulder"]*3+1]
+    lhip = keypoints[BODY_25["LHip"]*3], keypoints[BODY_25["LHip"]*3+1]
+    return math.acos()
 
 def leg_angle(keypoints):
 
