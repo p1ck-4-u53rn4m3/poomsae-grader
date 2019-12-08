@@ -30,6 +30,13 @@ BODY_25 = {
     "Background": 25
 }
 
+def arm_angle(keypoints):
+    ''' 
+    output: [left arm angle, right arm angle]
+    '''
+
+def leg_angle(keypoints):
+
 
 # STRIKES
 def is_valid_middlePunch(p, dir=None):
