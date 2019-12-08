@@ -30,6 +30,14 @@ BODY_25 = {
 "Background": 25
 }
 
+def arm_angle(keypoints):
+    ''' 
+    output: [left arm angle, right arm angle]
+    '''
+    
+
+def leg_angle(keypoints):
+
 def read_file(f):
     ''' reads the json file of people arrays produced by OpenPose
     input: name of json file
@@ -43,7 +51,7 @@ def read_file(f):
 def analyze(f, optimal):
     ''' reads the json file of people arrays produced by OpenPose
     input: name of json file
-    output: [arm angle, leg angle]
+    output: total score
     '''
     keypoints = read_file(f)
-    
+    lwrist = (keypoints[], keypoints[])
