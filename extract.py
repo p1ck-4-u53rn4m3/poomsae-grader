@@ -1,2 +1,4 @@
 import tarfile
-tr = tarfile.open()
+tf = tarfile.open('pyongwon.tar')
+print(tarfile.is_tarfile('pyongwon.tar'))
+tf.extractall()
