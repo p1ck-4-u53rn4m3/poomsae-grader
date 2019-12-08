@@ -1,5 +1,6 @@
 import json
 import math
+import numpy
 
 BODY_25 = {
     "Nose": 0,
@@ -32,8 +33,10 @@ BODY_25 = {
 
 def arm_angle(keypoints):
     ''' 
-    output: [left arm angle, right arm angle]
+    output: [left arm angle, right arm angle], horizontally given assuming performer is facing the front
     '''
+    lwrist = keypoints[BODY_25["LWrist"]*3], keypoints[BODY_25["LWrist"]*3+1]
+    
 
 def leg_angle(keypoints):
 
@@ -45,6 +48,7 @@ def is_valid_middlePunch(p, dir=None):
     :param dir: direction of middle punch (str)
     :return: whether middle punch is good (bool)
     """
+    #criterion 1: straight arms
 
 
 # BLOCKS
