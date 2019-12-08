@@ -47,6 +47,21 @@ def analyze(f, optimal):
     output: total score
     '''
     keypoints = read_file(f)
+
+def stop_points(file_list):
+    ret = []
+    current_frame = read_file(file_list[0])
+    for i in range(1,len(file_list)):
+        prev_frame = current_frame
+        current_frame = read_file(file_list[i])
+        diff = 0
+        for n in range(25):
+            diff += abs(prev_frame[3*n] - current_frame[3*n])
+            diff += abs(prev_frame[3*n+1] - current_frame[3*n+1])
+        if diff < 125:
+            ret.append(i)
+    return ret
+        
 """
 <<<<<<< HEAD
     lwrist = (keypoints[], keypoints[])
