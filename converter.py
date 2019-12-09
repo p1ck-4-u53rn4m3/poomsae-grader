@@ -48,6 +48,7 @@ def analyze(f, optimal):
     '''
     keypoints = read_file(f)
 
+
 def stop_points(file_list):
     ret = []
     current_frame = read_file(file_list[0])
