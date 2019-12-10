@@ -1,5 +1,6 @@
 import json
 import math
+import numpy as np
 
 BODY_25 = {
     "Nose": 0,
@@ -51,16 +52,23 @@ def is_valid_frontKick(coords, foot=None):
     # criterion 1: instep in line with leg
     ankle_toe = (coords['LBigToe'] - coords[kicking+'Ankle'])/np.linalg.norm(coords['LBigToe'] - coords[kicking+'Ankle'])
     ankle_knee = (coords['LKnee'] - coords[kicking+'Ankle'])/np.linalg.norm(coords['LKnee'] - coords[kicking+'Ankle'])
-    instep_angle = np.arccos(np.clip(np.dot(ankle_toe, ankle_knee))) * 180/(2*math.pi)
+    instep_angle = np.arccos(np.clip(np.dot(ankle_toe, ankle_knee), -1.0, 1.0)) * 180/math.pi
     if instep_angle > 30:
+        print('instep angle is off: ' + str(instep_angle))
         return False
 
     # criterion 2: head high kick
-    if coords[kicking + 'BigToe'][1] < coords["Neck"][1]:
+    y1 = coords['Neck'][1]
+    y2 = coords['MidHip'][1]
+    if (coords[kicking + 'BigToe'][1]-y1) * (coords[kicking + 'BigToe'][1]-y2) <= 0:
+        print('kick not head high: ' + str((coords[kicking + 'BigToe'][1], y1, y2)))
         return False
 
     # criterion 3: support heel flat on the floor
-    if coords[support + 'Heel'][1] > coords[support + 'BigToe']:
+    y1 = coords['MidHip'][1]
+    y2 = coords[support + 'BigToe'][1]
+    if (coords[support + 'Heel'][1]-y1) * (coords[support + 'Heel'][1]-y2) <= 0:
+        print('heel not flat: ' + str((coords[support + 'Heel'][1], y1, y2)))
         return False
 
     # criterion 4: support foot pivot up to 30 deg
@@ -68,8 +76,9 @@ def is_valid_frontKick(coords, foot=None):
     toe = coords[support + 'BigToe']
     heel = coords[support + 'Heel']
     support_vec = (toe - heel) / np.linalg.norm(toe - heel)
-    angle = np.arccos(np.clip(np.dot(support_vec, x))) * 180 / (2 * math.pi)
+    angle = np.arccos(np.clip(np.dot(support_vec, x), -1.0, 1.0)) * 180 / math.pi
     if angle > 30:
+        print('angle is bad: ' + str(angle))
         return False
 
     return True
