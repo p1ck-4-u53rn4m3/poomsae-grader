@@ -380,28 +380,6 @@ if __name__ == "__main__":
     name = 'mediocre_andrew_'
     stopping_frames = [57, 91, 126, 158, 188, 201, 239, 275, 310, 345, 378, 389, 425, 452, 481, 520, 549, 578, 622, 658]
 
-    moves = {0: ("leftLowBlock", "leftWalkingStance"),
-             1: ("rightMiddlePunch", "rightWalkingStance"),
-             2: ("rightLowBlock", "rightWalkingStance"),
-             3: ("leftMiddlePunch", "leftWalkingStance"),
-             4: ("leftLowBlock", "leftFrontStance"),
-             5: ("rightMiddlePunch", "leftFrontStance"),
-             6: ("leftInsideBlock", "rightWalkingStance"),
-             7: ("rightMiddlePunch", "leftWalkingStance"),
-             8: ("rightInsideBlock", "leftWalkingStance"),
-             9: ("leftMiddlePunch", "rightWalkingStance"),
-             10: ("rightLowBlock", "rightFrontStance"),
-             11: ("leftMiddlePunch", "rightFrontStance"),
-             12: ("leftHighBlock", "leftWalkingStance"),
-             13: ("rightFrontKick", None),
-             14: ("rightMiddlePunch", "rightWalkingStance"),
-             15: ("rightHighBlock", "rightWalkingStance"),
-             16: ("leftFrontKick", None),
-             17: ("leftMiddlePunch", "leftWalkingStance"),
-             18: ("leftLowBlock", "leftFrontStance"),
-             19: ("rightMiddlePunch", "rightFrontStance")}
-
-
     def check(moves, stop_coords):
         def convert(tech, stance, coords):
             technique_dic = {
@@ -446,6 +424,9 @@ if __name__ == "__main__":
                 bad_moves.append(i)
 
         return deduction, bad_moves
+
+    with open('/Users/kj/Documents/GitHub/poomsae-grader/Taegeuk1.txt', 'r') as file:
+        moves = eval(file.read())
 
     stop_coords = []
     for i in stopping_frames:
