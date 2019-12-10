@@ -52,6 +52,13 @@ def is_valid_middlePunch(coords, hand=None):
     if hand != 'left' and hand != 'right':
         raise SyntaxError
 
+    if hand == 'left':
+        punch_arm = coords["LWrist"]
+        off_arm = coords["RWrist"]
+    else:
+        punch_arm = coords["RWrist"]
+        off_arm = coords["LWrist"]
+
     # criterion 1: straight arm
     if hand == 'left' and not arm_angle(coords)[0] <= 175:
         return False
@@ -62,9 +69,8 @@ def is_valid_middlePunch(coords, hand=None):
     if coords['REar'] != np.array([0, 0]) and coords['LEar'] != np.array([0, 0]):
         print("front and back will be dealt with soon!")
     else:
-        if hand == 'left' and not (75 < arm_to_body_angle(coords)[0] < 85):  # adjust values
-            return False
-        elif hand == 'right' and not (75 < arm_to_body_angle(coords)[1] < 85):  # adjust values
+        middle_torso = (coords["MidHip"][1] + coords["Neck"][1])/2
+        if not (middle_torso < punch_arm[1] < coords["Neck"]):  # adjust values
             return False
 
     # criterion 3: opposite hand placed correctly
@@ -73,6 +79,13 @@ def is_valid_middlePunch(coords, hand=None):
     else:
         if not opposite_hand_placement(coords, hand):
             return False
+
+    # criterion 4: punch is to the centerline of body
+    if coords['REar'] != np.array([0, 0]) and coords['LEar'] != np.array([0, 0]):
+        if not (coords['LEar'][0] < punch_arm[0] < coords['REar'][0]):
+            return false
+    else:
+        print("sides will be dealt with soon!")
 
     return True
 
@@ -86,6 +99,13 @@ def is_valid_lowBlock(coords, hand=None):
     """
     if hand != 'left' and hand != 'right':
         raise SyntaxError
+
+    if hand == 'left':
+        block_arm = coords["LWrist"]
+        off_arm = coords["RWrist"]
+    else:
+        block_arm = coords["RWrist"]
+        off_arm = coords["LWrist"]
 
     # criterion 1: straight arm
     if hand == 'left' and not arm_angle(coords)[0] <= 175:
@@ -109,6 +129,16 @@ def is_valid_lowBlock(coords, hand=None):
     else:
         if not opposite_hand_placement(coords, hand):
             return False
+
+    # criterion 4: low block above quadricep
+    if coords['REar'] != np.array([0, 0]) and coords['LEar'] != np.array([0, 0]):
+        x1 = coords['MidHip'][0]
+        x2 = (2*coords['LHip'] - coords['MidHip'])[0]
+
+        if (block_arm[0] - x1) * (block_arm[0] - x2) > 0:
+            return False
+    else:
+        print("sides will be dealt with soon!")
 
     return True
 
@@ -148,6 +178,7 @@ def is_valid_insideBlock(coords, hand=None):
             return False
 
     return True
+
 
 def is_valid_highBlock(coords, hand=None):
     """
@@ -275,3 +306,14 @@ def opposite_hand_placement(coords, hand=None):
         return False
 
     return True
+
+
+if __name__ == "__main__":
+    test_frame = []
+    coords = get_BODY_coords(BODY_25, test_frame)
+    print(is_valid_lowBlock(coords, hand='left'))
+    print(is_valid_middlePunch(coords, hand='right'))
+    print(is_valid_lowBlock(coords, hand='right'))
+    print(is_valid_middlePunch(coords, hand='left'))
+
+
