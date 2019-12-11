@@ -1,5 +1,6 @@
 import json
 import math
+import numpy as np
 
 BODY_25 = {
 "Nose": 0,
@@ -30,6 +31,8 @@ BODY_25 = {
 "Background": 25
 }
 
+focal_parts = {"RElbow","RWrist","LElbow","LWrist","RKnee","RAnkle","LKnee","LAnkle","LHeel","RHeel"}
+
 def read_file(f):
     ''' reads the json file of people arrays produced by OpenPose
     input: name of json file
@@ -49,19 +52,38 @@ def analyze(f, optimal):
     keypoints = read_file(f)
 
 def stop_points(file_list):
-    ret = []
+    stops = []
     current_frame = read_file(file_list[0])
+    velocity = {}
     for i in range(1,len(file_list)):
         prev_frame = current_frame
         current_frame = read_file(file_list[i])
-        diff = 0
-        for n in range(25):
+        diff=0
+        for n in range(24):# Simple Velocity Drop
             diff += abs(prev_frame[3*n] - current_frame[3*n])
             diff += abs(prev_frame[3*n+1] - current_frame[3*n+1])
-        if diff < 125:
-            ret.append(i)
+        if diff < 50:
+            stops.append(i)
+        for part in focal_parts:
+            n = BODY_25[part]
+            velo = np.array([prev_frame[3*n] - current_frame[3*n],prev_frame[3*n+1] - current_frame[3*n+1]])
+            if i > 1:
+                acc = velo - velocity[part]
+                if np.linalg.norm(acc) > 15 and diff < 90:
+                    print("hi", np.linalg.norm(acc),i,part)
+            velocity[part] = velo
+    ret = [stops[0]]
+    for i in range(len(stops)-1):
+        if stops[i+1]-stops[i] > 3:
+            ret.append(stops[i])
+            ret.append(stops[i+1])
     return ret
-        
+
+f_list = []
+for i in range(796):
+    name = 'good_kevin_'+('00000000000'+str(i))[-12:]+'_keypoints.json'
+    f_list.append(name)
+print(stop_points(f_list))
 """
 <<<<<<< HEAD
     lwrist = (keypoints[], keypoints[])
