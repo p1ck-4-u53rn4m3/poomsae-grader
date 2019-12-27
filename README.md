@@ -1,6 +1,7 @@
 # poomsae-grader
 ## PoomsAI: An Accuracy Auto-grader Using Bottom-up Human Pose Estimation
 
+PoomsAI Paper.pdf - 6.819 project paper
 
 converter.py - algorithm for stopping point detection
 
