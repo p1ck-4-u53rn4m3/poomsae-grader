@@ -1,7 +1,10 @@
 # poomsae-grader
-## PoomsAI: An Accuracy Auto-grader Using Bottom-up Human Pose Estimation
+PoomsAI: An Accuracy Auto-grader Using Bottom-up Human Pose Estimation
 
-Note: Used AWS for running OpenPose on data avi videos
+## Requirements
+We used OpenPose (https://github.com/CMU-Perceptual-Computing-Lab/openpose) to generate human pose estimations from videos of athlete performances. You will need some kind of GPU if you wish to recreate the results from the data. In our case, we used AWS to run the networks provided by OpenPose. 
+
+## Descriptions of Files
 
 PoomsAI Paper.pdf - 6.819 project paper
 
