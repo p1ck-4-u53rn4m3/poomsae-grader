@@ -1,5 +1,5 @@
 # poomsae-grader
-PoomsAI: An Accuracy Auto-grader Using Bottom-up Human Pose Estimation
+## PoomsAI: An Accuracy Auto-grader Using Bottom-up Human Pose Estimation
 
 
 converter.py - algorithm for stopping point detection
